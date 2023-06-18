@@ -13,15 +13,15 @@ resource "azurerm_virtual_network" "Vnet1"{
     name = "VNet1"
     location = azurerm_resource_group.rg1.location
     resource_group_name = azurerm_resource_group.rg1.name
-    address_space = ["10.0.0.0/16"]
+    address_space = ["10.0.0.0/8"]
 
     subnet  {
-      address_prefix = "10.0.1.0/24"
+      address_prefix = "10.1.0.0/16"
       name = "Public"
     }
 
     subnet  {
-      address_prefix = "10.0.2.0/24"
+      address_prefix = "10.2.0.0/16"
       name = "Private"
     }
 
