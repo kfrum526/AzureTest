@@ -1,31 +1,35 @@
 resource "azurerm_resource_group" "rg1" {
-    name = "rg1"
+    name = "TestRG1"
     location = "EastUS"
 }
 
 resource "azurerm_network_security_group" "nsg1" {
-    name = "NSG1"
+    name = "TestNSG1"
     location = azurerm_resource_group.rg1.location
     resource_group_name = azurerm_resource_group.rg1.name
 }
 
 resource "azurerm_virtual_network" "Vnet1"{
-    name = "VNet1"
+    name = "TestVN"
     location = azurerm_resource_group.rg1.location
     resource_group_name = azurerm_resource_group.rg1.name
-    address_space = ["10.0.0.0/8"]
-
-    subnet  {
-      address_prefix = "10.1.0.0/16"
-      name = "Public"
-    }
-
-    subnet  {
-      address_prefix = "10.2.0.0/16"
-      name = "Private"
-    }
-
+    address_space = ["11.0.0.0/16"]
+    
     tags = {
       environment = "Testing"
     }
+}
+
+resource "azurerm_subnet" "public"{
+  name = "Public"
+  resource_group_name = azurerm_resource_group.rg1
+  virtual_network_name = azurerm_virtual_network.Vnet1
+  address_prefixes = ["11.0.0.0/24"]
+}
+
+resource "azurerm_subnet" "private" {
+  name = "Private"
+  resource_group_name = azurerm_resource_group.rg1
+  virtual_network_name = azurerm_virtual_network.Vnet1
+  address_prefixes = ["11.0.1.0/24"]
 }
