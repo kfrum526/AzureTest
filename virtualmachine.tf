@@ -6,7 +6,7 @@ resource "azurerm_network_interface" "ni1" {
     ip_configuration {
         name = "testconfiguration1"
         subnet_id = azurerm_subnet.public
-        private_ip_address_allocatoin = "Dynamic"
+        private_ip_address_allocation = "Dynamic"
     }
 }
 
