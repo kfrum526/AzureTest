@@ -1,3 +1,10 @@
+resource "azurerm_public_ip" "puibip" {
+    name = "TestPublicIP"
+    resource_group_name = azurerm_resource_group.rg1.name
+    location = azurerm_resource_group.rg1.location
+    allocation_method = "Dynamic"
+}
+
 resource "azurerm_network_interface" "ni1" {
     name = "ani-network"
     location = azurerm_resource_group.rg1.location
@@ -5,8 +12,9 @@ resource "azurerm_network_interface" "ni1" {
 
     ip_configuration {
         name = "testconfiguration1"
-        subnet_id = azurerm_subnet.public
+        subnet_id = azurerm_subnet.public.id
         private_ip_address_allocation = "Dynamic"
+        public_ip_address_id = azurerm_public_ip.puibip.id
     }
 }
 
@@ -27,7 +35,6 @@ resource "azurerm_virtual_machine" "main" {
         name = "testdisk1"
         caching = "ReadWrite"
         create_option = "FromImage"
-        managed_disk_id = "Standard_LRS"
     }
     os_profile {
         computer_name = "hostname"
